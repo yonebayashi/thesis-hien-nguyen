@@ -34,13 +34,6 @@ echo "Downloading data from ${URL}..."
 cd $orig
 wget "$URL"
 
-if [ -f $GZ ]; then
-    echo "Data successfully downloaded."
-else
-    echo "Data not successfully downloaded."
-    exit
-fi
-
 tar zxvf $GZ
 cd ..
 
