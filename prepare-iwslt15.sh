@@ -13,7 +13,7 @@ CLEAN=$SCRIPTS/training/clean-corpus-n.perl
 BPEROOT=subword-nmt/subword_nmt
 BPE_TOKENS=8000
 
-URL="https://wit3.fbk.eu/download.php?release=2015-01&type=texts&slang=en&tlang=vi"
+URL="https://wit3.fbk.eu/archive/2015-01/texts/en/vi/en-vi.tgz"
 GZ=en-vi.tgz
 
 if [ ! -d "$SCRIPTS" ]; then
@@ -33,6 +33,13 @@ mkdir -p $orig $tmp $prep
 echo "Downloading data from ${URL}..."
 cd $orig
 wget "$URL"
+
+if [ -f $GZ ]; then
+    echo "Data successfully downloaded."
+else
+    echo "Data not successfully downloaded."
+    exit
+fi
 
 tar zxvf $GZ
 cd ..
