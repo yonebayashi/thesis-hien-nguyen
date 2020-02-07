@@ -1,14 +1,12 @@
-### Data Processing
+### Data pre-processing
 
 To prepare the data for training, start with the following command:
 
 `bash prepare-iwslt15.sh`
 
- This script downloads the data from [IWSLT'15 English-Vietnamese dataset](https://nlp.stanford.edu/projects/nmt/), cleans and tokenizes it using [Moses tokenizer](https://github.com/moses-smt/mosesdecoder/), and finally applies BPE ([Sennrich et al.](https://github.com/rsennrich/subword-nmt)) on the data.
+ This will download the data from [IWSLT'15 English-Vietnamese dataset](https://nlp.stanford.edu/projects/nmt/), clean and tokenize it using [Moses scripts](https://github.com/moses-smt/mosesdecoder/), and finally apply BPE ([Sennrich et al.](https://github.com/rsennrich/subword-nmt)) on the data.
 
-The number of BPE tokens is set to 4000 by default.
-
-The script applies BPE dropout with `p = 0.1` by default. To disable BPE dropout, remove the optional argument `--dropout 0.1` in the following line:
+This script sets the number of BPE tokens to 4000 and applies BPE dropout with `p = 0.1` by default. To disable BPE dropout, remove the optional argument `--dropout 0.1` in the following line:
 
 `python $BPEROOT/apply_bpe.py -c $BPE_CODE --dropout 0.1 < $tmp/train.$L > $tmp/bpe.train.$L`
 
@@ -33,8 +31,16 @@ All model checkpoints are saved in `./checkpoints`. Since `--no-epoch-checkpoint
 
 ### Translation
 
-To generate Eng>Vie translations, run:
+To generate English to Vietnamese translations, run:
 
-`fairseq-generate data-bin/iwslt15_en_vi_bpe4k/  --source-lang en --target-lang vi --path checkpoints/checkpoint_best.pt --batch-size 8 --beam 4 --remove-bpe`
+```
+fairseq-generate data-bin/iwslt15_en_vi_bpe4k/  --source-lang en --target-lang vi --path checkpoints/checkpoint_best.pt --batch-size 8 --beam 4 --remove-bpe`
+```
 
-Translations are generated from the best model checkpoint, using beam search with beam width 4. `remove-bpe` is set to remove BPE delimiters for easier reading.
+Translations are generated from the best model checkpoint, using beam search with default beam width 4. `remove-bpe` is set to remove BPE delimiters for easier reading.
+
+## Progress & report
+
+Experimental results can be found [here](https://docs.google.com/spreadsheets/d/1eJP9KRe7F8wSMduCsVd17VZzZ3HgH-CDl6nkSpQkPeE/edit#gid=0).
+
+Thesis: https://www.overleaf.com/read/xgftpjdvccvb
